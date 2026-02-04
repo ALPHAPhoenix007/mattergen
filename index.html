@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatterGen - AI Materials Discovery</title>
+    <script src="https://3Dmol.csb.pitt.edu/build/3Dmol-min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #0a4d3c;
+            --secondary-green: #0f6b52;
+            --accent-green: #14a878;
+            --light-green: #4dd4ac;
+            --bg-dark: #0d1b17;
+            --bg-card: #0f2820;
+            --text-light: #e0f2ed;
+            --text-muted: #9dd4c6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1612 0%, #0d1b17 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header styles */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--light-green);
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(77, 212, 172, 0.3);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.2em;
+        }
+
+        /* Layout grid */
+        .layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            background: linear-gradient(180deg, #0a1612 0%, #0f2820 100%);
+            border: 2px solid var(--accent-green);
+            border-radius: 10px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .sidebar h2 {
+            color: var(--light-green);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .sidebar h3 {
+            color: var(--light-green);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        input[type="number"],
+        input[type="range"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #0f2820;
+            border: 2px solid var(--accent-green);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="range"] {
+            padding: 0;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--light-green);
+        }
+
+        .range-value {
+            text-align: center;
+            color: var(--light-green);
+            font-weight: bold;
+            margin-top: 5px;
+            font-size: 0.95em;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(90deg, #14a878 0%, #0f6b52 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 28px;
+            font-weight: 600;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #1cc594 0%, #12846b 100%);
+            box-shadow: 0 4px 12px rgba(20, 168, 120, 0.4);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Main content styles */
+        .main-content {
+            background: rgba(15, 40, 32, 0.6);
+            border: 1px solid var(--accent-green);
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .main-content h2 {
+            color: var(--light-green);
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .main-content p {
+            color: var(--text-muted);
+            margin: 15px 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--accent-green);
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1em;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            width: auto;
+            margin: 0;
+        }
+
+        .tab:hover {
+            color: var(--light-green);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab.active {
+            color: var(--light-green);
+            border-bottom-color: var(--accent-green);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Molecule grid and cards */
+        .molecule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .molecule-card {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-green);
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .molecule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(20, 168, 120, 0.3);
+        }
+
+        .molecule-card h3 {
+            color: var(--light-green);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .viewer-container {
+            width: 100%;
+            height: 300px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        .viewer-placeholder {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .viewer-placeholder .icon {
+            font-size: 4em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .viewer-placeholder .title {
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+
+        .viewer-placeholder .subtitle {
+            font-size: 0.8em;
+            color: var(--text-muted);
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(20, 168, 120, 0.2);
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+        }
+
+        .metric-value {
+            color: var(--light-green);
+            font-weight: bold;
+        }
+
+        .smiles-code {
+            background: var(--bg-dark);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-green);
+            margin: 10px 0;
+            word-break: break-all;
+            font-size: 0.9em;
+        }
+
+        /* Info and success boxes */
+        .success-box {
+            background-color: #0f2820;
+            border-left: 4px solid #14a878;
+            padding: 15px;
+            border-radius: 5px;
+            color: #4dd4ac;
+            margin: 20px 0;
+        }
+
+        .error-box {
+            background-color: #2a1010;
+            border-left: 4px solid #d84848;
+            padding: 15px;
+            border-radius: 5px;
+            color: #ff8080;
+            margin: 20px 0;
+        }
+
+        .info-box {
+            background: rgba(20, 168, 120, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            color: var(--text-muted);
+        }
+
+        .info-box h3 {
+            color: var(--light-green);
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            color: var(--light-green);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        /* Example SMILES */
+        .example-smiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .example-tag {
+            background: var(--bg-dark);
+            border: 1px solid var(--accent-green);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .example-tag:hover {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--accent-green);
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Loading animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--light-green);
+            animation: pulse 1.5s infinite;
+            font-size: 1.1em;
+        }
+
+        /* Horizontal rule */
+        hr {
+            border: none;
+            border-top: 1px solid var(--accent-green);
+            margin: 30px 0;
+        }
+
+        /* Analysis grid */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 968px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .molecule-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .tab {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MatterGen</h1>
+            <p class="subtitle">AI-Driven Materials Discovery Platform</p>
+        </header>
+
+        <div class="layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h2>Target Properties</h2>
+                
+                <div class="input-group">
+                    <label for="conductivity">Electrical Conductivity (S/m)</label>
+                    <input type="range" id="conductivity" min="0" max="200" value="75" oninput="updateConductivity(this.value)">
+                    <div class="range-value" id="conductivity-value">75 S/m</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="stability">Thermal Stability (°C)</label>
+                    <input type="range" id="stability" min="0" max="1000" value="350" step="10" oninput="updateStability(this.value)">
+                    <div class="range-value" id="stability-value">350 °C</div>
+                </div>
+
+                <div class="input-group">
+                    <label for="candidates">Number of Candidates</label>
+                    <input type="range" id="candidates" min="1" max="9" value="5" oninput="updateCandidates(this.value)">
+                    <div class="range-value" id="candidates-value">5</div>
+                </div>
+
+                <button onclick="generateMolecules()">Generate Molecules</button>
+
+                <hr>
+
+                <div class="info-box">
+                    <h3>About</h3>
+                    <p>MatterGen uses AI to discover novel molecular structures matching your target properties.</p>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3>Example SMILES</h3>
+                    <div class="smiles-code" style="font-size: 0.85em;">c1ccccc1</div>
+                    <p style="font-size: 0.85em; color: var(--text-muted); margin: 5px 0;">Benzene</p>
+                    <div class="smiles-code" style="font-size: 0.85em; margin-top: 10px;">CC(=O)Oc1ccccc1C(=O)O</div>
+                    <p style="font-size: 0.85em; color: var(--text-muted); margin: 5px 0;">Aspirin</p>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab(0)">Generate Materials</button>
+                    <button class="tab" onclick="switchTab(1)">Analyze SMILES</button>
+                    <button class="tab" onclick="switchTab(2)">Results Gallery</button>
+                </div>
+
+                <!-- Tab 1: Generate -->
+                <div class="tab-content active" id="tab-0">
+                    <h2>Generate Novel Molecular Structures</h2>
+                    <p>Click "Generate Molecules" in the sidebar to create molecular candidates matching your target properties.</p>
+
+                    <div id="results-container">
+                        <div class="info-box">
+                            <p>Set your target properties in the sidebar and click "Generate Molecules" to begin!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Analyze -->
+                <div class="tab-content" id="tab-1">
+                    <h2>Analyze Custom SMILES Structure</h2>
+                    <p>Enter a SMILES string to visualize the 3D structure and calculate molecular properties.</p>
+
+                    <div class="input-group">
+                        <label for="custom-smiles">SMILES Notation</label>
+                        <textarea id="custom-smiles" rows="3" placeholder="e.g., c1ccccc1 for benzene">c1ccccc1</textarea>
+                    </div>
+
+                    <div class="example-smiles">
+                        <div class="example-tag" onclick="setSmiles('c1ccccc1')">Benzene</div>
+                        <div class="example-tag" onclick="setSmiles('CC(=O)Oc1ccccc1C(=O)O')">Aspirin</div>
+                        <div class="example-tag" onclick="setSmiles('c1ccc2ccccc2c1')">Naphthalene</div>
+                        <div class="example-tag" onclick="setSmiles('c1cnc2ccccc2c1')">Quinoline</div>
+                        <div class="example-tag" onclick="setSmiles('CCO')">Ethanol</div>
+                    </div>
+
+                    <button onclick="analyzeSmiles()">Analyze Structure</button>
+
+                    <div id="analysis-results"></div>
+                </div>
+
+                <!-- Tab 3: Gallery -->
+                <div class="tab-content" id="tab-2">
+                    <h2>Generated Molecules Gallery</h2>
+                    <div id="gallery-container">
+                        <div class="info-box">
+                            <p>No molecules generated yet. Go to the "Generate Materials" tab to create some!</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer>
+            <p><strong>MatterGen</strong> - AI-Powered Materials Discovery Platform</p>
+            <p>Built with Streamlit • RDKit • py3Dmol</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">This is a demo preview. The full app requires Python backend.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Global variables
+        let generatedMolecules = [];
+        let currentTab = 0;
+
+        // Mock molecule data for demonstration
+        const mockMolecules = [
+            {
+                name: "Candidate 1",
+                smiles: "c1cc(C)c(O)cc1",
+                conductivity: 72.3,
+                stability: 345.2,
+                mw: 108.14,
+                logp: 1.95,
+                hbd: 1,
+                hba: 1
+            },
+            {
+                name: "Candidate 2",
+                smiles: "c1ccc2c(c1)ccc1ccccc12",
+                conductivity: 89.5,
+                stability: 412.8,
+                mw: 178.23,
+                logp: 4.45,
+                hbd: 0,
+                hba: 0
+            },
+            {
+                name: "Candidate 3",
+                smiles: "c1cnc2ccccc2c1",
+                conductivity: 68.1,
+                stability: 328.5,
+                mw: 129.16,
+                logp: 2.03,
+                hbd: 0,
+                hba: 1
+            },
+            {
+                name: "Candidate 4",
+                smiles: "c1cc(N)ccc1O",
+                conductivity: 54.7,
+                stability: 298.3,
+                mw: 109.13,
+                logp: 0.98,
+                hbd: 2,
+                hba: 2
+            },
+            {
+                name: "Candidate 5",
+                smiles: "c1ccc2c(c1)cc1ccccc1c2",
+                conductivity: 95.2,
+                stability: 456.7,
+                mw: 178.23,
+                logp: 4.56,
+                hbd: 0,
+                hba: 0
+            },
+            {
+                name: "Candidate 6",
+                smiles: "c1cc(F)c(Cl)cc1",
+                conductivity: 61.8,
+                stability: 312.4,
+                mw: 130.55,
+                logp: 2.87,
+                hbd: 0,
+                hba: 0
+            },
+            {
+                name: "Candidate 7",
+                smiles: "Cc1ccc2ccccc2c1",
+                conductivity: 78.9,
+                stability: 389.1,
+                mw: 142.20,
+                logp: 3.92,
+                hbd: 0,
+                hba: 0
+            },
+            {
+                name: "Candidate 8",
+                smiles: "c1cc(O)c(N)cc1",
+                conductivity: 52.3,
+                stability: 285.7,
+                mw: 109.13,
+                logp: 0.76,
+                hbd: 2,
+                hba: 2
+            },
+            {
+                name: "Candidate 9",
+                smiles: "c1ccc2c(c1)sc1ccccc12",
+                conductivity: 92.7,
+                stability: 438.2,
+                mw: 184.26,
+                logp: 4.78,
+                hbd: 0,
+                hba: 0
+            }
+        ];
+
+        // Update conductivity display
+        function updateConductivity(value) {
+            document.getElementById('conductivity-value').textContent = value + ' S/m';
+        }
+
+        // Update stability display
+        function updateStability(value) {
+            document.getElementById('stability-value').textContent = value + ' °C';
+        }
+
+        // Update candidates display
+        function updateCandidates(value) {
+            document.getElementById('candidates-value').textContent = value;
+        }
+
+        // Switch between tabs
+        function switchTab(index) {
+            currentTab = index;
+            document.querySelectorAll('.tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+        }
+
+        // Generate molecules with AI simulation
+        function generateMolecules() {
+            const numCandidates = parseInt(document.getElementById('candidates').value);
+            const conductivity = parseFloat(document.getElementById('conductivity').value);
+            const stability = parseFloat(document.getElementById('stability').value);
+
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = '<div class="loading">Generating molecular candidates...</div>';
+
+            setTimeout(() => {
+                // Generate molecules with properties adjusted to targets
+                generatedMolecules = mockMolecules.slice(0, numCandidates).map(mol => ({
+                    ...mol,
+                    conductivity: conductivity + (Math.random() * 20 - 10),
+                    stability: stability + (Math.random() * 50 - 25)
+                }));
+
+                displayMolecules(resultsContainer, generatedMolecules);
+                updateGallery();
+            }, 1500);
+        }
+
+        // Display molecules in a container
+        function displayMolecules(container, molecules) {
+            const successBox = `
+                <div class="success-box">
+                    Successfully generated ${molecules.length} molecular candidate${molecules.length > 1 ? 's' : ''}!
+                </div>
+            `;
+
+            const stats = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${(molecules.reduce((sum, m) => sum + m.conductivity, 0) / molecules.length).toFixed(2)}</div>
+                        <div class="stat-label">Avg Conductivity (S/m)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${(molecules.reduce((sum, m) => sum + m.stability, 0) / molecules.length).toFixed(2)}</div>
+                        <div class="stat-label">Avg Stability (°C)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${(molecules.reduce((sum, m) => sum + m.mw, 0) / molecules.length).toFixed(2)}</div>
+                        <div class="stat-label">Avg MW (g/mol)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${molecules.length}</div>
+                        <div class="stat-label">Generated</div>
+                    </div>
+                </div>
+            `;
+
+            const moleculeCards = molecules.map((mol, i) => `
+                <div class="molecule-card">
+                    <h3>${mol.name}</h3>
+                    <div class="viewer-container">
+                        <div class="viewer-placeholder">
+                            <span class="icon">3D</span>
+                            <div class="title">3D Viewer</div>
+                            <div class="subtitle">(Requires RDKit backend)</div>
+                        </div>
+                    </div>
+                    <div class="smiles-code">${mol.smiles}</div>
+                    <div class="metric">
+                        <span class="metric-label">Conductivity</span>
+                        <span class="metric-value">${mol.conductivity.toFixed(2)} S/m</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Thermal Stability</span>
+                        <span class="metric-value">${mol.stability.toFixed(2)} °C</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Molecular Weight</span>
+                        <span class="metric-value">${mol.mw.toFixed(2)} g/mol</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">LogP</span>
+                        <span class="metric-value">${mol.logp.toFixed(2)}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">H-Bond Donors</span>
+                        <span class="metric-value">${mol.hbd}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">H-Bond Acceptors</span>
+                        <span class="metric-value">${mol.hba}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = successBox + stats + '<hr><div class="molecule-grid">' + moleculeCards + '</div>';
+        }
+
+        // Analyze SMILES input
+        function analyzeSmiles() {
+            const smiles = document.getElementById('custom-smiles').value.trim();
+            const resultsDiv = document.getElementById('analysis-results');
+
+            if (!smiles) {
+                resultsDiv.innerHTML = '<div class="error-box">Please enter a SMILES string.</div>';
+                return;
+            }
+
+            resultsDiv.innerHTML = '<div class="loading">Analyzing structure...</div>';
+
+            setTimeout(() => {
+                const mol = {
+                    name: "Analyzed Molecule",
+                    smiles: smiles,
+                    conductivity: 65.3 + Math.random() * 40,
+                    stability: 320.5 + Math.random() * 100,
+                    mw: 100 + Math.random() * 200,
+                    logp: Math.random() * 5,
+                    hbd: Math.floor(Math.random() * 4),
+                    hba: Math.floor(Math.random() * 5)
+                };
+
+                resultsDiv.innerHTML = `
+                    <div class="success-box">Valid SMILES structure detected!</div>
+                    <hr>
+                    <div class="analysis-grid">
+                        <div>
+                            <h3 style="color: var(--light-green); margin-bottom: 15px;">3D Molecular Visualization</h3>
+                            <div class="viewer-container" style="height: 400px;">
+                                <div class="viewer-placeholder">
+                                    <span class="icon">3D</span>
+                                    <div class="title">3D Molecular Structure</div>
+                                    <div style="margin-top: 10px;">SMILES: <code style="color: var(--accent-green);">${smiles}</code></div>
+                                    <div class="subtitle" style="margin-top: 5px;">(Full rendering requires RDKit)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--light-green); margin-bottom: 15px;">Molecular Properties</h3>
+                            <div class="metric">
+                                <span class="metric-label">Molecular Weight</span>
+                                <span class="metric-value">${mol.mw.toFixed(2)} g/mol</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">LogP</span>
+                                <span class="metric-value">${mol.logp.toFixed(2)}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">H-Bond Donors</span>
+                                <span class="metric-value">${mol.hbd}</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">H-Bond Acceptors</span>
+                                <span class="metric-value">${mol.hba}</span>
+                            </div>
+                            <hr>
+                            <h3 style="color: var(--light-green); margin: 15px 0;">Predicted Properties</h3>
+                            <div class="metric">
+                                <span class="metric-label">Electrical Conductivity</span>
+                                <span class="metric-value">${mol.conductivity.toFixed(2)} S/m</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Thermal Stability</span>
+                                <span class="metric-value">${mol.stability.toFixed(2)} °C</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }, 1000);
+        }
+
+        // Update gallery with generated molecules
+        function updateGallery() {
+            const gallery = document.getElementById('gallery-container');
+            if (generatedMolecules.length === 0) {
+                gallery.innerHTML = '<div class="info-box"><p>No molecules generated yet. Go to the "Generate Materials" tab to create some!</p></div>';
+            } else {
+                displayMolecules(gallery, generatedMolecules);
+            }
+        }
+
+        // Set SMILES in textarea
+        function setSmiles(smiles) {
+            document.getElementById('custom-smiles').value = smiles;
+        }
+    </script>
+</body>
+</html>
