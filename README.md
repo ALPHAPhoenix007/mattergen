@@ -1,4 +1,5 @@
 MatterGen – AI-Assisted Materials Discovery (Prototype)
+
 🧪 Overview
 
 MatterGen is a prototype web interface built for hackathons to demonstrate the concept of AI-assisted materials discovery. The current version focuses on showcasing the user workflow, data flow, and analytical approach through a lightweight HTML/CSS-based demo.
