@@ -5,6 +5,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 from pathlib import Path
 import sys
+import os
+os.environ["RDKIT_NO_IMPORT_WARNING"] = "1"
 
 def normalize_formula(formula: str) -> str:
     if formula is None:
