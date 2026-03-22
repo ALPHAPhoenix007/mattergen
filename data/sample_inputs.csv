@@ -1,0 +1,145 @@
+smiles,name,description
+O,Water,Simple inorganic molecule
+C,Methane,Smallest alkane
+O=C=O,Carbon_Dioxide,Linear inorganic molecule
+N,Ammonia,Small nitrogen compound
+CCO,Ethanol,Simple alcohol
+c1ccccc1,Benzene,Simple aromatic ring
+CC(C)O,Isopropanol,Branched alcohol
+c1ccc(cc1)O,Phenol,Aromatic alcohol
+CC(=O)C,Acetone,Simple ketone
+CCN,Ethylamine,Small amine
+c1ccc2ccccc2c1,Naphthalene,Fused aromatic rings
+C1CCCCC1,Cyclohexane,Cyclic alkane
+CC(C)(C)O,Tert-butanol,Bulky alcohol
+Cc1ccccc1,Toluene,Substituted aromatic ring
+c1ccc(cc1)C,Methylbenzene,Substituted aromatic ring (toluene isomer)
+CC(C)C,Isobutane,Branched alkane
+CCCC,Butane,Simple alkane
+c1ccc(cc1)N,Aniline,Aromatic amine
+CC(=O)O,Acetic_Acid,Simple organic acid
+CCOC,Methyl_Ethyl_Ether,Simple ether
+c1cc(ccc1O)O,Hydroquinone,Di-hydroxy aromatic
+CC(C)CC,Isopentane,Branched alkane
+C1CCOC1,Tetrahydrofuran,Cyclic ether
+c1ccc2c(c1)ccc3c2cccc3,Anthracene,Polycyclic aromatic compound
+CC(C)(C)C,Neopentane,Highly branched alkane
+c1ccc(cc1)Cl,Chlorobenzene,Halogenated aromatic
+CCCCO,1-Butanol,Linear alcohol
+c1ccc(cc1)F,Fluorobenzene,Halogenated aromatic
+CC1=CC=CC=C1,Toluene_isomer,Toluene isomer (methylbenzene)
+c1ccc(cc1)Br,Bromobenzene,Halogenated aromatic
+CCCCCC,Hexane,Linear alkane
+c1ccc(cc1)I,Iodobenzene,Heavy halogenated aromatic
+CC(C)CC(C)C,Dimethylpentane,Branched alkane
+c1ccc2c(c1)oc3c2cccc3,Dibenzofuran,Oxygen-containing aromatic
+CCCCCCC,Heptane,Long-chain alkane
+c1ccc(cc1)c2ccccc2,Biphenyl,Linked aromatic rings
+CCCCCCCC,Octane,Longer alkane
+c1ccc2c(c1)sc3c2cccc3,Dibenzothiophene,Sulfur-containing aromatic
+CCCCCCCCC,Nonane,Long-chain alkane
+CCCCCCCCCC,Decane,Very long alkane
+c1ccc2c(c1)[nH]c3c2cccc3,Carbazole,Nitrogen-containing aromatic
+CC(C)CCC(C)C,Dimethylhexane,Branched alkane
+c1ccc2c(c1)c3ccccc3[nH]2,Carbazole_isomer,Carbazole isomer
+CCCCC(C)C,2-Methylhexane,Branched alkane
+c1ccc(c(c1)c2ccccc2)c3ccccc3,Triphenylmethane,Bulky aromatic compound
+CC(C)CCCC(C)C,Dimethylheptane,Branched alkane
+c1ccc(cc1)c2ccc(cc2)c3ccccc3,p-Terphenyl,Extended aromatic system
+CCCC(C)CCC,3-Methylheptane,Branched alkane
+c1ccc2c(c1)ccc3c2ccc4c3cccc4,Tetracene,Extended polycyclic aromatic
+CC(C)CC(C)CC(C)C,Trimethylheptane,Highly branched alkane
+CCOC(=O)C,Ethyl_Acetate,Simple ester
+c1ccncc1,Pyridine,Heterocyclic aromatic compound
+C1COCCO1,"1,4-Dioxane",Cyclic ether
+CC(C)=O,Acetone_isomer,Acetone isomer (ketone)
+c1ccccc1O,Phenol_isomer,Phenol isomer
+CCCCCCCCCCC,Undecane,Long-chain alkane
+CCCCCCCCCCCC,Dodecane,Long-chain alkane
+C(C(=O)O)N,Glycine,Amino acid
+c1ccc(cc1)CN,Benzylamine,Aromatic amine
+CC(C)CCO,Isobutanol,Branched alcohol
+C1CC1,Cyclopropane,Small cyclic alkane
+C1CCC1,Cyclobutane,Small cyclic alkane
+C1CCCCC1O,Cyclohexanol,Cyclic alcohol
+c1ccc(cc1)OC,Anisole,Aromatic ether
+CC(=O)N,Acetamide,Simple amide
+CCCCCCCCCCCCC,Tridecane,Long-chain alkane
+c1cocc1,Furan,Heterocyclic compound
+c1cscc1,Thiophene,Sulfur-containing heterocycle
+CCOCC,Diethyl_Ether,Symmetric ether
+c1ccccc1C(=O)O,Benzoic_Acid,Aromatic carboxylic acid
+CCCC(=O)O,Butyric_Acid,Carboxylic acid
+c1ccc(cc1)NO2,Nitrobenzene,Nitro-substituted aromatic
+CCCCCCCCCCCCCC,Tetradecane,Long-chain alkane
+CCOCCO,Ethylene_Glycol_Ethyl_Ether,Ether-alcohol
+c1ccc2c(c1)cccc2,Naphthalene_isomer,Naphthalene isomer
+CCC(C)CC,Pentane,Branched alkane
+CC(C)CO,Isopropanol_isomer,Isopropanol isomer
+C1CC2CCCC2C1,Decalin,Bicyclic alkane
+c1cc2ccccc2cc1,Naphthalene_alt,Naphthalene alternative structure
+CCCCCCCCCCCCCCCC,Hexadecane,Long-chain alkane
+c1ccc(cc1)C(C)C,Cumene,Isopropylbenzene
+CC(C)(C)CC,Neopentane_alt,Neopentane isomer
+CCOC(=O)CC,Ethyl_Propionate,Ester
+c1ccccc1C(=O)OC,Methyl_Benzoate,Aromatic ester
+CCCCCCCCCCCCCCCCCC,Octadecane,Long-chain alkane
+C1CCNCC1,Piperidine,Heterocyclic amine
+c1ccccc1C#N,Benzonitrile,Aromatic nitrile
+CC(=O)CC,Acetone_alt,Acetone isomer
+CCCCCCCCCCCCCCCCCCCC,Eicosane,Very long-chain alkane
+c1ccc(cc1)C(=O)C,Acetophenone,Aromatic ketone
+CCCCCC(=O)O,Hexanoic_Acid,Carboxylic acid
+c1ccc(cc1)OCC,Phenethyl_Alcohol,Aromatic alcohol
+CC(C)C(=O)O,Isobutyric_Acid,Branched carboxylic acid
+c1ccc(cc1)S,Thiophenol,Aromatic thiol
+CCCCCCCCCCCCCCCCCCCCCC,Docosane,Very long-chain alkane
+C1CCCN1,Pyrrolidine,Heterocyclic amine
+c1ccc(cc1)N(C)C,"N,N-Dimethylaniline",Tertiary aromatic amine
+CCCCCCCCCCCCCCCCCCCCCCCC,Tetracosane,Very long-chain alkane
+c1ccc2c(c1)C=CC=C2,Naphthalene_alt2,Naphthalene alternative structure 2
+CC(C)C(C)O,Tert-butanol_alt,Tert-butanol isomer
+CCCCCCCCCCCCCCCCCCCCCCCCCC,Hexacosane,Very long-chain alkane
+c1ccccc1C(C)C,Isopropylbenzene,Isopropyl-substituted benzene
+CCCCCCCCCCCCCCCCCCCCCCCCCCCC,Octacosane,Very long-chain alkane
+CCOC(=O)C(C)C,Ethyl_Isobutyrate,Ester
+c1ccc(cc1)OC(=O)C,Phenyl_Acetate,Aromatic ester
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Triacontane,Very long-chain alkane
+C1C2CC3CC1CC(C2)C3,Adamantane,Tricyclic alkane
+c1ccc(cc1)c2ccccc2C,Diphenylmethane,Aromatic compound
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Dotriacontane,Very long-chain alkane
+CCOC(=O)C=C,Ethyl_Acrylate,Ester with double bond
+c1ccc(cc1)c2ccccc2O,Phenyl_Phenol,Hydroxylated biphenyl
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Tetratriacontane,Very long-chain alkane
+C1=CC=CC=C1,Benzene_alt,Benzene alternative notation
+c1ccc(cc1)c2ccc(cc2)OC,Diphenyl_Ether,Aromatic ether
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Hexatriacontane,Very long-chain alkane
+CC(C)CCOC,Isobutyl_Methyl_Ether,Branched ether
+c1ccc(cc1)c2ccccc2S,Diphenyl_Sulfide,Aromatic sulfide
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Octatriacontane,Very long-chain alkane
+CCOCCOC,Ethylene_Glycol_Dimethyl_Ether,Ether
+c1ccc(cc1)c2ccccc2N,Diphenylamine,Aromatic amine
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Tetracontane,Very long-chain alkane
+CC(C)OC(=O)C,Isopropyl_Acetate,Ester
+c1ccc(cc1)c2ccccc2C=O,Benzophenone,Aromatic ketone
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Dotetracontane,Very long-chain alkane
+CCOC(=O)COC,Ethyl_Glycolate,Ester with ether group
+c1ccc(cc1)c2ccc(cc2)C=O,Benzophenone_alt,Benzophenone isomer
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Tetratetracontane,Very long-chain alkane
+CC(C)CC(=O)O,Isovaleric_Acid,Branched carboxylic acid
+c1ccc(cc1)c2ccc(cc2)CO,Diphenylmethanol,Aromatic alcohol
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Hexatetracontane,Very long-chain alkane
+CCOC(=O)C(CC)C,Ethyl_2-Methylbutyrate,Ester
+c1ccc(cc1)c2ccc(cc2)CN,Diphenylmethylamine,Aromatic amine
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Octatetracontane,Very long-chain alkane
+CC(C)CC(C)O,Diisopropyl_Ether,Symmetric ether
+c1ccc(cc1)c2ccc(cc2)C(C)C,Diphenylpropane,Aromatic compound
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Pentacontane,Very long-chain alkane
+CCOC(=O)CCC(=O)OC,Diethyl_Malonate,Diester
+c1ccc(cc1)c2ccc(cc2)C(C)(C)C,Diphenylbutane,Aromatic compound
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Dopentacontane,Very long-chain alkane
+CC(C)CCOC(=O)C,Isobutyl_Acetate,Ester
+c1ccc(cc1)c2ccc(cc2)C(OC)C,Methoxydiphenylmethane,Aromatic ether-alcohol
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC,Tetrapentacontane,Very long-chain alkane
+CCOC(=O)C(C)C(=O)OC,Ethyl_Acetoacetate,β-ketoester
+c1ccc(cc1)c2ccc(cc2)C(SC)C,Methylthiomethyldiphenyl,Aromatic sulfide compound
