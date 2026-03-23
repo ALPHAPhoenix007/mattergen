@@ -268,6 +268,10 @@ Built with ☕ and 🧪 for [Your Hackathon Name]
 - **scikit-learn**: ML library
 - **Py3Dmol**: 3D visualization
 
+## App URL
+
+https://mattergen.streamlit.app/
+
 ---
 
 **⭐ Star this repo if you found it useful!**
